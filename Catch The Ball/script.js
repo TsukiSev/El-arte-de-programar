@@ -25,24 +25,46 @@ let catcher = {
   x: canvas.width / 2 - 40, // Centrado al inicio
   y: canvas.height - 40,
   color: "white",
+  moveSpeed: 6, // velocidad de movimiento con teclas
 };
 
 let score = 0;
-let mouseX = canvas.width / 2;
+
+// Eliminado el control por mouse
+// let mouseX = canvas.width / 2;
 
 // 🖱 Evento: mover el mouse
-canvas.addEventListener("mousemove", (e) => {
-  const rect = canvas.getBoundingClientRect();
-  mouseX = e.clientX - rect.left;
+// canvas.addEventListener("mousemove", (e) => {
+//   const rect = canvas.getBoundingClientRect();
+//   mouseX = e.clientX - rect.left;
+// });
+
+// ===== Nuevo: control por teclado (A/D o ←/→) =====
+const keys = { left: false, right: false };
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "a" || e.key === "A" || e.key === "ArrowLeft") keys.left = true;
+  if (e.key === "d" || e.key === "D" || e.key === "ArrowRight") keys.right = true;
 });
+
+window.addEventListener("keyup", (e) => {
+  if (e.key === "a" || e.key === "A" || e.key === "ArrowLeft") keys.left = false;
+  if (e.key === "d" || e.key === "D" || e.key === "ArrowRight") keys.right = false;
+});
+// ==================================================
 
 // ⚙️ Actualizar posición y lógica
 function update() {
   // Mueve la bola
   ball.y += ball.speed;
 
-  // Actualiza la posición del catcher
-  catcher.x = mouseX - catcher.width / 2;
+  // Actualiza la posición del catcher usando teclas
+  if (keys.left) catcher.x -= catcher.moveSpeed;
+  if (keys.right) catcher.x += catcher.moveSpeed;
+
+  // Limita el catcher dentro del canvas
+  if (catcher.x < 0) catcher.x = 0;
+  if (catcher.x + catcher.width > canvas.width) catcher.x = canvas.width - catcher.width;
 
   // 🧮 Detección de colisión (bola vs catcher)
   if (
