@@ -25,21 +25,12 @@ let catcher = {
   x: canvas.width / 2 - 40, // Centrado al inicio
   y: canvas.height - 40,
   color: "white",
-  moveSpeed: 6, // velocidad de movimiento con teclas
+  moveSpeed: 10, // velocidad de movimiento con teclas
 };
 
 let score = 0;
 
-// Eliminado el control por mouse
-// let mouseX = canvas.width / 2;
-
-// 🖱 Evento: mover el mouse
-// canvas.addEventListener("mousemove", (e) => {
-//   const rect = canvas.getBoundingClientRect();
-//   mouseX = e.clientX - rect.left;
-// });
-
-// ===== Nuevo: control por teclado (A/D o ←/→) =====
+// ⌨️ Controles de teclado (GPT-5)
 const keys = { left: false, right: false };
 
 window.addEventListener("keydown", (e) => {
@@ -51,7 +42,6 @@ window.addEventListener("keyup", (e) => {
   if (e.key === "a" || e.key === "A" || e.key === "ArrowLeft") keys.left = false;
   if (e.key === "d" || e.key === "D" || e.key === "ArrowRight") keys.right = false;
 });
-// ==================================================
 
 // ⚙️ Actualizar posición y lógica
 function update() {
